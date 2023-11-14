@@ -17,6 +17,7 @@ const passportSetup = require("./boilerPlate/passport");
 const contactRoute = require("./HPNotePad/routes/contactRoute");
 const logRoute = require("./HPNotePad/routes/logRoute");
 const dataRoute = require("./HPNotePad/routes/dataRoute");
+const nodeCronRoute = require("./HPNotePad/routes/nodeCronRoute");
 //bcnMinmalista routes
 const usersRoutes = require("./bcnMinimalista/routes/usersRoutes");
 const authRoutes = require("./bcnMinimalista/routes/authRoutes");
@@ -99,6 +100,7 @@ app.use("/log", logRoute);
 //notepad
 app.use("/notepad/contact", contactRoute);
 app.use("/notepad/data", dataRoute);
+app.use("/notepad/nodeCron", nodeCronRoute);
 
 //bcnMinimalista
 app.use("/bcnmin/users", usersRoutes);
