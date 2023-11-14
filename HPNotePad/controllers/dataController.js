@@ -17,11 +17,9 @@ const nodeCronTrigger = asyncHandler(async (req, res) => {
     return res.json({ message: "Data fetched successfully for today" });
   } else {
     console.log("Failed to fetch data for today");
-    return res
-      .status(500)
-      .json({ message: "Failed to fetch data for today" });
+    return res.status(500).json({ message: "Failed to fetch data for today" });
   }
-})
+});
 
 const getJoke = async () => {
   const options = {
@@ -41,12 +39,13 @@ const getJoke = async () => {
         punchline: response.data.body[0].punchline,
       };
       return joke;
-    } else {
-      return errorMessage;
     }
+    throw new Error("Error fetching joke");
   } catch (error) {
-    console.log(error.message);
-    return errorMessage;
+    console.error(error.message);
+    return {
+      errorMessage: "Error fetching joke",
+    };
   }
 };
 
@@ -59,12 +58,11 @@ const getHoroscope = async (signHS) => {
     let response = await axios.request(options);
     if (response.data.horoscope) {
       return response.data.horoscope;
-    } else {
-      return errorMessage;
     }
+    throw new Error(`Error fetching horoscope for ${signHS}`);
   } catch (error) {
     console.log(error.message);
-    return errorMessage;
+    return `Error fetching horoscope for ${signHS}`;
   }
 };
 
@@ -87,15 +85,16 @@ const getMoonPhase = async () => {
         fullMoon: response.data.days_until_next_full_moon,
       };
       return moonphaseData;
-    } else {
-      return errorMessage;
     }
+    throw new Error("Error fetching moon phase data");
   } catch (error) {
-    console.log({
-      message: "catch block moon phase",
-      response: error,
+    console.error({
+      message: "Error in getMoonPhase",
+      response: error.message,
     });
-    return errorMessage;
+    return {
+      errorMessage: "Error fetching moon phase data",
+    };
   }
 };
 
@@ -122,12 +121,18 @@ const getForecast = async () => {
       }));
 
       return extractedData;
-    } else {
-      return errorMessage;
     }
+    throw new Error("Error fetching forecast data");
   } catch (error) {
-    console.log(error.message);
-    return errorMessage;
+    console.error({
+      message: "Error in fetching forecast",
+      response: error.message,
+    });
+    return [
+      {
+        errorMessage: "Error fetching forecast data",
+      },
+    ];
   }
 };
 
@@ -161,13 +166,14 @@ const getNews = async () => {
       }));
 
       return extractedData;
-    } else {
-      console.log("success");
-      return errorMessage;
     }
+    throw new Error("Error fetching news data");
   } catch (error) {
-    console.log(error.message);
-    return errorMessage;
+    console.error({
+      message: "Error in fetching news",
+      response: error.message,
+    });
+    return [{ errorMessage: "Error fetching news data" }];
   }
 };
 
@@ -188,10 +194,10 @@ const fetchData = asyncHandler(async (req, res) => {
       console.error("Error fetching data:", error);
     });
 
-    if (!joke || !forecast || !news) {
-      console.log("Error fetching data joke or moonphase or forecast or news");
-      return;
-    }
+    // if (!joke || !forecast || !news) {
+    //   console.log("Error fetching data joke or moonphase or forecast or news");
+    //   return;
+    // }
 
     fetchedDataObject.joke = joke;
 
@@ -239,7 +245,6 @@ const fetchData = asyncHandler(async (req, res) => {
     } else {
       return { success: false, message: "Error saving data to DB" };
     }
-
   } catch (error) {
     console.error("Error in fetchData:", error);
     return errorMessage;
@@ -253,7 +258,7 @@ const saveDataToDB = async (objectToSave) => {
   let dataToSave = {
     date: time,
   };
-  console.log(dataToSave)
+  console.log(dataToSave);
 
   if (objectToSave.horoscope) {
     dataToSave.horoscope = objectToSave.horoscope;
@@ -270,7 +275,7 @@ const saveDataToDB = async (objectToSave) => {
   if (Array.isArray(objectToSave.news)) {
     dataToSave.news = objectToSave.news;
   } else {
-    dataToSave.news = "Error";
+    dataToSave.news = [{ errorMessage: "Error fetching news data" }];
     console.error("Invalid news data format");
   }
 
@@ -286,7 +291,6 @@ const saveDataToDB = async (objectToSave) => {
     return { success: false, message: "Error saving data to DB" };
   }
 };
-
 
 const getDataByDate = asyncHandler(async (req, res) => {
   function formatDate(date) {

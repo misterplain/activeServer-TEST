@@ -15,6 +15,7 @@ const dataSchema = new Schema({
       type: String,
       // required: true,
     },
+    errorMessage: { type: String },
   },
   horoscope: {
     aries: {
@@ -65,6 +66,7 @@ const dataSchema = new Schema({
       type: String,
       // required: true,
     },
+    errorMessage: { type: String },
   },
   moonPhase: {
     mainText: {
@@ -77,7 +79,8 @@ const dataSchema = new Schema({
     },
     fullMoon: {
       type: Number
-    }
+    },
+    errorMessage: { type: String },
   },
   forecast: [
     {
@@ -93,6 +96,7 @@ const dataSchema = new Schema({
         type: Number,
         // required: true,
       },
+      errorMessage: { type: String },
     },
   ],
   news: [
@@ -121,6 +125,7 @@ const dataSchema = new Schema({
         type: String,
         // required: true,
       },
+      errorMessage: { type: String },
     },
   ],
 },{

@@ -569,3 +569,5 @@
 20231112	16:26:08	fe6c01ba-2966-42bb-bebb-04e9957cd94a	GET	/notepad/data/2023-11-11	http://localhost:3000
 20231112	16:26:11	26a44c1b-07df-4e26-aa4e-50f277934118	GET	/notepad/data/2023-11-12	http://localhost:3000
 20231112	20:04:56	86d40f94-8b89-42be-97f7-d26f39fd9918	POST	/notepad/data/	undefined
+20231114	19:36:34	c19dce5a-d2cd-480a-8338-d0d451503718	GET	/notepad/nodeCron/	undefined
+20231114	19:37:59	7ee7143e-3464-4e83-91d9-f9b0483eab57	GET	/notepad/nodeCron/	undefined
