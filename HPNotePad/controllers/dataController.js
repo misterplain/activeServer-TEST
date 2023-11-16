@@ -22,6 +22,7 @@ const nodeCronTrigger = asyncHandler(async (req, res) => {
 });
 
 const getJoke = async () => {
+  console.log(process.env.RAPID_API_KEY, "process.env.RAPID_API_KEY")
   const options = {
     method: "GET",
     url: "https://dad-jokes.p.rapidapi.com/random/joke",
@@ -46,6 +47,7 @@ const getJoke = async () => {
       };
       return joke;
     } else {
+
       return {
         data: {},
         response: {
@@ -55,7 +57,10 @@ const getJoke = async () => {
       };
     }
   } catch (error) {
-    console.error(error.message);
+    console.log({
+      message: "Error in Joke",
+      response: error,
+    });
     return {
       data: {},
       response: {
@@ -67,6 +72,7 @@ const getJoke = async () => {
 };
 
 const getHoroscope = async (signHS) => {
+
   const options = {
     method: "GET",
     url: `https://ohmanda.com/api/horoscope/${signHS}/`,
@@ -91,7 +97,10 @@ const getHoroscope = async (signHS) => {
       };
     }
   } catch (error) {
-    console.error(error.message);
+    console.log({
+      message: "Error in Horoscope",
+      response: error,
+    });
     return {
       data: {},
       response: {
@@ -104,6 +113,7 @@ const getHoroscope = async (signHS) => {
 
 //third api call - moonphase
 const getMoonPhase = async () => {
+  console.log(process.env.RAPID_API_KEY, "process.env.RAPID_API_KEY")
   const options = {
     method: "GET",
     url: "https://moon-phase.p.rapidapi.com/basic",
@@ -137,9 +147,9 @@ const getMoonPhase = async () => {
       };
     }
   } catch (error) {
-    console.error({
+    console.log({
       message: "Error in getMoonPhase",
-      response: error.message,
+      response: error,
     });
     return {
       data: {},
@@ -153,6 +163,7 @@ const getMoonPhase = async () => {
 
 //fourt api call - weather
 const getForecast = async () => {
+  console.log(process.env.RAPID_API_KEY, "process.env.RAPID_API_KEY")
   const options = {
     method: "GET",
     url: "https://forecast9.p.rapidapi.com/rapidapi/forecast/Barcelona/summary/",
@@ -190,7 +201,10 @@ const getForecast = async () => {
       };
     }
   } catch (error) {
-    console.error(error.message);
+    console.log({
+      message: "Error in forecast",
+      response: error,
+    });
     return {
       data: [],
       response: {
@@ -202,6 +216,7 @@ const getForecast = async () => {
 };
 
 const getNews = async () => {
+  console.log(process.env.RAPID_API_KEY, "process.env.RAPID_API_KEY")
   const options = {
     method: "GET",
     url: "https://cnbc.p.rapidapi.com/news/v2/list-trending",
@@ -247,7 +262,10 @@ const getNews = async () => {
       };
     }
   } catch (error) {
-    console.error(error.message);
+    console.log({
+      message: "Error in News",
+      response: error,
+    });
     return {
       data: [],
       response: {
@@ -259,6 +277,7 @@ const getNews = async () => {
 };
 
 const fetchData = asyncHandler(async (req, res) => {
+  console.log(process.env.RAPID_API_KEY, "process.env.RAPID_API_KEY")
   try {
     let time = new Date();
     let fetchedDataObject = {};
@@ -502,7 +521,7 @@ const getDataByDate = asyncHandler(async (req, res) => {
 const deleteAllData = asyncHandler(async (req, res) => {
   console.log("deleteAllData");
 
-  const dateToFind = "2023-02-12";
+  const dateToFind = "2023-11-14";
   const startOfDay = new Date(dateToFind);
   console.log(startOfDay);
   const endOfDay = new Date(startOfDay.getTime() + 24 * 60 * 60 * 1000 - 1);
@@ -889,3 +908,4 @@ module.exports = { fetchData, getDataByDate, deleteAllData, nodeCronTrigger };
 // });
 
 // module.exports = { fetchData, getDataByDate, deleteAllData, nodeCronTrigger };
+
